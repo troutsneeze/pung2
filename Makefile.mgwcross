@@ -1,0 +1,21 @@
+OBJFILES=pung.o input.o config.o
+FLAGS=-Wall -DALLEGRO_STATICLINK -I/home/trent/code/win-include -I/home/trent/code/tgui-0.9
+LIBS=icon.res -L/home/trent/code/win-lib -L. -ltgui -llogg -lalleggl -lalleg -lvorbisfile -lvorbis -logg -lddraw -ldsound -ldinput8 -ldxguid -lgdi32 -lole32 -lwinmm -lopengl32 -lglu32 /home/trent/code/win-lib/glut32.lib
+
+default: windows
+
+pung.o: pung.cpp pung.h
+	i686-w64-mingw32-g++ $(FLAGS) -c pung.cpp
+
+input.o: input.cpp pung.h
+	i686-w64-mingw32-g++ $(FLAGS) -c input.cpp
+
+config.o: config.cpp pung.h
+	i686-w64-mingw32-g++ $(FLAGS) -c config.cpp
+
+windows: $(OBJFILES)
+	i686-w64-mingw32-g++ -o pung.exe icon.res $(OBJFILES) $(LIBS) -static -static-libgcc -static-libstdc++ -Wl,--subsystem,windows
+
+clean:
+	rm -f $(OBJFILES)
+	rm -f pung pung.exe pung.cfg
